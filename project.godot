@@ -12,4 +12,4 @@ config_version=5
 
 config/name="Universal Transition Shader"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/icon.svg"
