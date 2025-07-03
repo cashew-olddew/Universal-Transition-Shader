@@ -31,6 +31,74 @@ For in depth documentation, check the [parameters reference](#parameters-referen
 
 **Let's cook!** 🍜
 
+_Hint: Each recipe contains only the most basic 'ingredients', without which the recipe wouldn't work. Feel free to add any additional parameters to get variations of these recipes._
+
+**Simple Fade**
+- `transition_type`: Basic
+- `grid_size`: (0.0, 0.0)
+- `gradient_width`: Any value > 0.0
+
+**Directional Wipe**
+- `transition_type`: Basic
+- `grid_size`: (1.0, 0.0) or (0.0, 1.0) or (-1.0, 0.0) or (0.0, -1.0) 
+
+**Corner Wipe**
+- `transition_type`: Basic
+- `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+
+**Diagonal Wipe**
+- `transition_type`: Basic
+- `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+- `rotation_angle`: 45.0
+
+**Center Wipe**
+- `transition_type`: Basic
+- `from_center`: true
+
+**Blinder Wipe**
+- `transition_type`: Basic
+- `grid_size`: (0.0, `abs(y) > 2.0`) or (`abs(x) > 2.0`, 0.0)
+
+**Grid Reveal**
+- `transition_type`: Basic
+- `from_center`: true
+- `grid_size`: (10.0, 10.0) - or any abs(x) > 0.0; abs(y) > 0.0;
+
+**Staggered Grid Reveal**
+- `transition_type`: Basic
+- `from_center`: true
+- `grid_size`: (10.0, 10.0) - or any abs(x) > 0.0; abs(y) > 0.0;
+- `stagger`: (1.0, 0.0) or (0.0, 1.0)
+
+**Cross-shaped Transition (All corners wipe)**
+- `transition_type`: Basic
+- `from_center`: true
+- `stagger`: (1.0, 1.0)
+
+**Iris Transition**
+- `transition_type`: Shape
+- `from_center`: true
+- `edges`: 64
+- `feather`: 0.5
+
+**Spike Transition**
+- `transition_type`: Shape
+- `from_center`: true
+- `grid_size` & `rotation_angle`: `(0.5, y) & 0.0` or `(x, -0.5) & 90.0`
+
+**Corner-Clock Transition**
+- `transition_type`: Clock
+- `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+
+**Center-Clock Transition**
+- `transition_type`: Clock
+- `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+
+**Fan Transition**
+- `transition_type`: Clock
+- `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+- `sectors`: 2 or more
+
 ## Parameters Reference
 
 The shader parameters are organized into the following categories:
@@ -49,9 +117,9 @@ The shader parameters are organized into the following categories:
 
 `use_sprite_alpha` (`bool`, default: `true`)
 
-When `false`, the `CanvasItem`'s transparency is ignored, and the transition's calculated alpha is used directly, potentially making fully transparent parts of the original sprite visible during the transition.
+When `false`, the `CanvasItem`'s original alpha is ignored.
 
-When `true`, the `CanvasItem`'s transparency is not ignored.
+When `true`, the final pixel's transparency will be the minimum of the sprite's original alpha and the transition's calculated alpha. This ensures that already-transparent parts of your sprite remain transparent throughout the transition.
 
 ---
 
@@ -112,7 +180,7 @@ Divides the `CanvasItem`'s area into a grid of independently animating cells. Th
 
 Using **negative values**, **zero values**, or **floating-point** numbers for the `grid_size` introduces interesting and powerful behaviors. 
 
-For instance, `(-1.0, 0.0)` will create a right-to-left wipe. Values like `(0.0, 0.0)` can even produce a simple fade.
+For instance, `(-1.0, 0.0)` will create a right-to-left wipe. Values like `(0.0, 0.0)` can even produce a simple fade, given the transition has a blur.
 
 Experiment to find more special `grid_size` values or check out the [common transition recipes](#common-transition-recipes) section for more examples.
 
