@@ -26,11 +26,11 @@ uniform vec2 mask_size = vec2(100.0);
 
 group_uniforms shape_transition_controls;
 uniform int edges : hint_range(3, 64) = 6; // default hexagon
-uniform float shape_feather : hint_range(0.0, 10.) = 0.1;
+uniform float shape_feather : hint_range(0.0, 10.0) = 0.1;
 
 group_uniforms clock_transition_controls;
 uniform int sectors : hint_range(1, 128) = 1;
-uniform float clock_feather : hint_range(0, 16) = 0.0;
+uniform float clock_feather : hint_range(0.0, 16.0) = 0.0;
 
 group_uniforms animation;
 uniform float progress = 0.0;
@@ -38,7 +38,7 @@ uniform vec2 progress_bias = vec2(0.0);
 
 vec2 use_actual_texture_size(vec2 uv, vec2 texture_size) {
 
-	uv -= .5;
+	uv -= 0.5;
 	vec2 uv_deriv = fwidth(uv);
 	float screen_ratio = uv_deriv.x / uv_deriv.y;
 	float texture_ratio = texture_size.x / texture_size.y;
@@ -50,7 +50,7 @@ vec2 use_actual_texture_size(vec2 uv, vec2 texture_size) {
 		uv.y *= mixed_ratio;
 	}
 
-	return uv + .5;
+	return uv + 0.5;
 }
 
 vec2 get_stagger_offset(vec2 grid) {
@@ -92,7 +92,7 @@ vec2 get_edges(float center, float width) {
 float get_local_progress(vec2 grid) {
     vec2 cell = floor(grid);
 	// Easier to control bias values
-	vec2 pretty_bias = progress_bias / 10.;
+	vec2 pretty_bias = progress_bias / 10.0;
     float offset = dot(cell, pretty_bias);
     return progress - offset;
 }
@@ -102,7 +102,7 @@ void fragment() {
 	vec2 offset_uv = grid + get_stagger_offset(grid);
 	vec2 grid_flipped_uv = get_grid_flip(offset_uv);
 	vec2 tiled_uv = fract(grid_flipped_uv);
-	vec2 uv = from_center ? 2. * tiled_uv - 1. : tiled_uv;
+	vec2 uv = from_center ? 2.0 * tiled_uv - 1.0 : tiled_uv;
 	uv = rotate(uv, radians(rotation_angle));
 
 	float local_progress = get_local_progress(grid);
@@ -110,7 +110,7 @@ void fragment() {
 	COLOR = texture(TEXTURE, UV);
 	float alpha = COLOR.a;
 	float transition_progress = 0.0;
-	
+
 	if (transition_type == 1) {
 		vec2 mask_zoom_uv = uv / local_progress;
 		vec2 mask_zoom_uv_01 = mask_zoom_uv * 0.5 + 0.5;
@@ -121,18 +121,18 @@ void fragment() {
 	} else if(transition_type == 2) {
     	float radius = length(uv);
 	    float angle = atan(uv.y, uv.x);
-		float sector_angle = 2. * PI / float(edges);
+		float sector_angle = 2.0 * PI / float(edges);
 		float half_sector = sector_angle / 2.0;
 		// Define polygon sectors using the power of trigonometry
 		float d = cos(half_sector) / cos(mod(angle + half_sector, sector_angle) - half_sector);
 
 		vec2 smooth_edges = get_edges(local_progress, shape_feather);
 		transition_progress = smoothstep(smooth_edges.x, smooth_edges.y, radius / d);
-		
+
 	} else if (transition_type == 3) {
 		float radius = length(uv);
 		float angle = atan(uv.y, uv.x);
-		float sector_angle = 2. * PI / float(sectors);
+		float sector_angle = 2.0 * PI / float(sectors);
 		float half_sector = sector_angle / 2.0;
 		angle = mod(angle - half_sector, sector_angle);
 
@@ -147,7 +147,7 @@ void fragment() {
 		float separation_y = smoothstep(smooth_edges.x, smooth_edges.y, abs(uv.y));
 		transition_progress = max(separation_x, separation_y);
 	}
-	alpha = invert ? 1. - transition_progress : transition_progress;
+	alpha = invert ? 1.0 - transition_progress : transition_progress;
 	alpha = use_sprite_alpha ? min(COLOR.a, alpha) : alpha;
 
 	vec4 transition_color = texture(transition_texture, UV);

@@ -36,7 +36,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 **Simple Fade**
 - `transition_type`: Basic
 - `grid_size`: (0.0, 0.0)
-- `gradient_width`: Any value > 0.0
+- `basic_feather`: Any value > 0.0
 
 **Directional Wipe**
 - `transition_type`: Basic
@@ -75,6 +75,27 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 - `from_center`: true
 - `stagger`: (1.0, 1.0)
 
+**Diagonal Popping Squares**
+- `transition_type`: Basic
+- `from_center`: true
+- `grid_size`: (5.0, 5.0) or (-5.0, 5.0) or (-5.0, -5.0) or (5.0, -5.0)
+- `progress_bias`: (10.0, 10.0) or (-10.0, 10.0) or (-10.0, -10.0) or (10.0, -10.0)
+
+**Step Grid**
+- `transition_type`: Basic
+- `from_center`: true
+- `grid_size`: (5.0, 0.0) or (0.0, 5.0)
+- `progress_bias`: (5.0, 0.0)
+
+**Mask Reveal**
+- `transition_type`: Mask
+- `mask_texture`: Any black & white texture
+
+**Alternating Mask Grid**
+- `transition_type`: Mask
+- `mask_texture`: Any black & white texture
+- `flip_frequency`: (1.0, 2.0)
+
 **Iris Transition**
 - `transition_type`: Shape
 - `from_center`: true
@@ -85,6 +106,19 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 - `transition_type`: Shape
 - `from_center`: true
 - `grid_size` & `rotation_angle`: `(0.5, y) & 0.0` or `(x, -0.5) & 90.0`
+
+**Scratch Lines Reveal**
+- `transition_type`: Shape
+- `from_center`: true
+- `grid_size`: (200.0, 5.0)
+
+**Overlapping Diamonds**
+- `transition_type`: Shape
+- `from_center`: true
+- `grid_size`: (0.5, 50.0) or (50.0, 0.5)
+- `edges`: 3
+- `shape_feather`: 0.0
+
 
 **Corner-Clock Transition**
 - `transition_type`: Clock
@@ -236,7 +270,7 @@ These parameters are exclusively relevant when `transition_type` is set to `0` (
 
 ---
 
-`gradient_width` (`float`)
+`basic_feather` (`float`)
 
 Controls the softness or blurriness of the transition's edges.
 
@@ -250,9 +284,22 @@ These parameters are exclusively relevant when `transition_type` is set to `1` (
 
 `mask_texture` (`sampler2D`)
 
+The grayscale image used as a mask for the transition. The white part of the mask shows the current texture and the black part shows the texture (or alpha) transitioned to.
+
+---
+
+`use_mask_size` (`bool`)
+
+When `false` the mask texture keeps the aspect ratio of the CanvasItem.
+When `true` the mask texture keeps the aspect ratio of the `mask_size` parameter. For example, if `mask_size` equals `(50, 25)`, the mask aspect ratio will stick to `2:1`
+
+_Hint: This is experimental and works best for grids containing a single element. Currently, for larger grids, this introduces horizontal/vertical artifacts because of `fwidth`'s nature._
+
 ---
 
 `mask_size` (`vec2`)
+
+If `use_mask_size` is `true`, the `mask_texture`'s aspect ratio will be determined by `mask_size.x`:`mask_size.y`.
 
 ---
 
@@ -268,7 +315,7 @@ Specifies the number of sides (edges) of the regular polygon shape that forms th
 
 ---
 
-`feather` (`float`, hint: `range(0.0, 10.0)`, default: `0.1`)
+`shape_feather` (`float`, hint: `range(0.0, 10.0)`, default: `0.1`)
 
 Controls the softness or blurriness of the polygon's edges. A value of `0.0` results in a perfectly sharp polygon outline, while increasing the value expands the feathered transition zone, creating a softer blend.
 
@@ -288,7 +335,7 @@ Determines how many radial segments (sectors) the clock-wipe effect is divided i
 
 `clock_feather` (`float`, hint: `range(0.0, 16.0)`, default `0.0`)
 
-Controls the amount of feathering or blur applied to the edges of the individual clock sectors. A `0.0` value produces sharp, distinct sector edges, while higher values create a smoother transition
+Controls the amount of feathering or blur applied to the edges of the individual clock sectors. A `0.0` value produces sharp, distinct sector edges, while higher values create a smoother transition.
 
 ---
 
@@ -316,6 +363,14 @@ Applies an additional offset to the progress value for each individual grid cell
 - the `y` component biases progress across rows. 
 
 This allows for creating "wave-like" or "staggered" animation effects where grid cells transition at slightly different times based on their position.
+
+## Contributing
+
+For any bugs or improvement ideas, feel free to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#about-forks) this repository and suggest a change. 
+
+Since the shader is quite simple, exploring and contributing to it can be a valuable learning experience for beginners.
+
+If you'd like to see an improvement, but don't know how to contribute, you can [create an Issue](https://github.com/cashew-olddew/Universal-Transition-Shader/issues/new).
 
 ## License
 
