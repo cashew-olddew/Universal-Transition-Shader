@@ -138,7 +138,7 @@ void fragment() {
 
 		float progress_angle = local_progress * 2.0 * PI / float(sectors);
 		float smooth_angle = smoothstep(0.0, clock_feather, progress_angle - angle);
-		transition_progress = invert ? 1.0 - smooth_angle : smooth_angle;
+		transition_progress = smooth_angle;
 
 	} else {
 		vec2 smooth_edges = get_edges(local_progress, basic_feather);
