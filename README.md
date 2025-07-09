@@ -1,4 +1,9 @@
-# Universal Transition Shader
+
+<h1>
+	<img src="https://github.com/user-attachments/assets/0a6cbb58-0594-414d-aa70-d1a90997e7a8" width="48" align="center"/>
+	Universal Transition Shader
+	<img src="https://github.com/user-attachments/assets/0a6cbb58-0594-414d-aa70-d1a90997e7a8" width="48" align="center"/>
+</h1>
 
 Most common transitions inside one Godot shader. 🎬
 
@@ -38,31 +43,57 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 - `grid_size`: (0.0, 0.0)
 - `basic_feather`: Any value > 0.0
 
+<img src="https://github.com/user-attachments/assets/765b83b8-2d29-4e20-8704-872bb41d90bb" width="100" />
+
 **Directional Wipe**
 - `transition_type`: Basic
-- `grid_size`: (1.0, 0.0) or (0.0, 1.0) or (-1.0, 0.0) or (0.0, -1.0) 
+- `grid_size`: (1.0, 0.0) or (0.0, 1.0) or (-1.0, 0.0) or (0.0, -1.0)
+
+<img src="https://github.com/user-attachments/assets/ae0b2c5e-2be3-48fc-99b8-344aae1a30db" width="80" />
+<img src="https://github.com/user-attachments/assets/3114a42b-805d-4e13-aedd-47e077bd45a9" width="80" />
+<img src="https://github.com/user-attachments/assets/1c517e71-9930-40a4-acb9-73ed1bf4a7e4" width="80" />
+<img src="https://github.com/user-attachments/assets/6597ab7a-e1fb-4c78-aa36-5e5aec883546" width="80" />
 
 **Corner Wipe**
 - `transition_type`: Basic
 - `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+
+<img src="https://github.com/user-attachments/assets/b4870810-99a1-48ae-916a-dc40585dd9e2" width="80" />
+<img src="https://github.com/user-attachments/assets/88c8bb1d-0746-4017-9962-7b3f5cdb05b8" width="80" />
+<img src="https://github.com/user-attachments/assets/741ae9ec-ffda-49f9-8729-87a14cb07d7e" width="80" />
+<img src="https://github.com/user-attachments/assets/255603bb-79e6-494a-95b9-f9cc5f1b7af1" width="80" />
 
 **Diagonal Wipe**
 - `transition_type`: Basic
 - `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
 - `rotation_angle`: 45.0
 
+<img src="https://github.com/user-attachments/assets/33281653-ccc1-4b17-9292-165b6317b414" width="80" />
+<img src="https://github.com/user-attachments/assets/37425d76-5a0d-4272-aa80-4674f1960663" width="80" />
+<img src="https://github.com/user-attachments/assets/427df89b-9f5f-42de-95aa-57e0c0a62938" width="80" />
+<img src="https://github.com/user-attachments/assets/59824309-91b8-4df4-a780-517b0bf79deb" width="80" />
+
 **Center Wipe**
 - `transition_type`: Basic
 - `from_center`: true
+
+<img src="https://github.com/user-attachments/assets/79827e31-7be0-454d-bcf3-cfb5a43a3626" width="100" />
 
 **Blinder Wipe**
 - `transition_type`: Basic
 - `grid_size`: (0.0, `abs(y) > 2.0`) or (`abs(x) > 2.0`, 0.0)
 
+<img src="https://github.com/user-attachments/assets/6fd5d274-379e-40f1-8c74-d9221bc521f6" width="80" />
+<img src="https://github.com/user-attachments/assets/f5e3434b-b2d6-40ba-bd1b-344a04d24dfe" width="80" />
+<img src="https://github.com/user-attachments/assets/065f3022-d058-4007-a2d3-29c6b5b78dba" width="80" />
+<img src="https://github.com/user-attachments/assets/8d530969-59c1-4a2d-b118-9d2dfa67a0a8" width="80" />
+
 **Grid Reveal**
 - `transition_type`: Basic
 - `from_center`: true
 - `grid_size`: (10.0, 10.0) - or any abs(x) > 0.0; abs(y) > 0.0;
+
+<img src="https://github.com/user-attachments/assets/a4b460e9-c43d-4d57-b656-631e5ea0f4e6" width="100" />
 
 **Staggered Grid Reveal**
 - `transition_type`: Basic
@@ -70,47 +101,82 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 - `grid_size`: (10.0, 10.0) - or any abs(x) > 0.0; abs(y) > 0.0;
 - `stagger`: (1.0, 0.0) or (0.0, 1.0)
 
+<img src="https://github.com/user-attachments/assets/8da31227-416d-41f3-9119-ebbe4e04c84f" width="80" />
+<img src="https://github.com/user-attachments/assets/3da53446-4fa8-4930-bc88-0cda908586a3" width="80" />
+
+**Mixed Stagger Reveal**
+- `transition_type`: Basic
+- `from_center`: true
+- `grid_size`: (5.0, 5.0)
+- `stagger`: (1.0, 1.0)
+
+<img src="https://github.com/user-attachments/assets/25a972cf-da15-432c-80d7-8e53a8a8d222" width="100" />
+
 **Cross-shaped Transition (All corners wipe)**
 - `transition_type`: Basic
 - `from_center`: true
 - `stagger`: (1.0, 1.0)
 
+<img src="https://github.com/user-attachments/assets/24819aeb-16a8-40f2-bfd3-e3434fd9d7a7" width="100" />
+
 **Diagonal Popping Squares**
 - `transition_type`: Basic
 - `from_center`: true
-- `grid_size`: (5.0, 5.0) or (-5.0, 5.0) or (-5.0, -5.0) or (5.0, -5.0)
-- `progress_bias`: (10.0, 10.0) or (-10.0, 10.0) or (-10.0, -10.0) or (10.0, -10.0)
+- `grid_size`: (5.0, 5.0)
+- `progress_bias`: (10.0, 10.0)
 
-**Step Grid**
+<img src="https://github.com/user-attachments/assets/c6d7a904-bd1f-454b-ba73-6c9c463b7f52" width="100" />
+
+**Step Wipe**
 - `transition_type`: Basic
 - `from_center`: true
 - `grid_size`: (5.0, 0.0) or (0.0, 5.0)
-- `progress_bias`: (5.0, 0.0)
+- `progress_bias`: (5.0, 0.0) or (0.0, 5.0)
+
+<img src="https://github.com/user-attachments/assets/1dcf66f8-970d-4d98-88b3-5df1f2c43a76" width="80" />
+<img src="https://github.com/user-attachments/assets/21ffe263-1385-4de4-8099-2637cb0b3dda" width="80" />
 
 **Mask Reveal**
 - `transition_type`: Mask
+- `from_center`: true
 - `mask_texture`: Any black & white texture
+
+<img src="https://github.com/user-attachments/assets/645de630-ee98-428e-8b0d-221f6e57446e" width="100" />
 
 **Alternating Mask Grid**
 - `transition_type`: Mask
+- `from_center`: true
+- `grid_size`: (5.0, 5.0)
 - `mask_texture`: Any black & white texture
 - `flip_frequency`: (1.0, 2.0)
+
+<img src="https://github.com/user-attachments/assets/2d59c7c2-d16e-4c3b-bce4-6b556aaea587" width="100" />
 
 **Iris Transition**
 - `transition_type`: Shape
 - `from_center`: true
 - `edges`: 64
-- `feather`: 0.5
+- `shape_feather`: 0.1
+
+<img src="https://github.com/user-attachments/assets/0a6cbb58-0594-414d-aa70-d1a90997e7a8" width="100" />
 
 **Spike Transition**
 - `transition_type`: Shape
 - `from_center`: true
+- `edges`: 3
 - `grid_size` & `rotation_angle`: `(0.5, y) & 0.0` or `(x, -0.5) & 90.0`
+
+<img src="https://github.com/user-attachments/assets/fd6e2d66-f820-469d-bdde-5cb173183eec" width="80" />
+<img src="https://github.com/user-attachments/assets/a6e8f21f-8fe1-49ca-b78f-9b11aef2aa6c" width="80" />
 
 **Scratch Lines Reveal**
 - `transition_type`: Shape
 - `from_center`: true
-- `grid_size`: (200.0, 5.0)
+- `grid_size`: (50.0, 5.0)
+- `edges`: 3
+- `flip_frequency`: (2.0, 1.0)
+
+<img src="https://github.com/user-attachments/assets/74211200-a4e2-42b1-89ee-89c395423ac2" width="100" />
 
 **Overlapping Diamonds**
 - `transition_type`: Shape
@@ -119,19 +185,48 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 - `edges`: 3
 - `shape_feather`: 0.0
 
+<img src="https://github.com/user-attachments/assets/f7e1d688-7d8d-421c-925b-0ac317fe7e4d" width="100" />
 
 **Corner-Clock Transition**
 - `transition_type`: Clock
+- `invert`: true
 - `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+
+<img src="https://github.com/user-attachments/assets/6c5c0c29-2e99-4672-b339-558108412872" width="80" />
+<img src="https://github.com/user-attachments/assets/856b1121-10ba-4d67-ac61-50d6c7a36006" width="80" />
+<img src="https://github.com/user-attachments/assets/60928ab7-b22e-4e3d-ab9f-92583b1178b8" width="80" />
+<img src="https://github.com/user-attachments/assets/f60b90a5-4a09-42bb-b440-def953b0abef" width="80" />
 
 **Center-Clock Transition**
 - `transition_type`: Clock
+- `invert`: true
+- `from_center`: true
 - `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
+
+<img src="https://github.com/user-attachments/assets/bdc012f3-7519-4f3c-bb38-098058a9b737" width="80" />
+<img src="https://github.com/user-attachments/assets/8a717281-f404-4a8e-8b57-61ce9cff12f8" width="80" />
+<img src="https://github.com/user-attachments/assets/75e1b7cb-a863-4432-a8a8-26769ad00cc4" width="80" />
+<img src="https://github.com/user-attachments/assets/03d96d53-f3c3-490d-a868-b18d149786e1" width="80" />
 
 **Fan Transition**
 - `transition_type`: Clock
+- `invert`: true
 - `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
 - `sectors`: 2 or more
+
+<img src="https://github.com/user-attachments/assets/471f858f-5186-4f72-ad3d-c546294be25f" width="80" />
+<img src="https://github.com/user-attachments/assets/4b8ec7f4-1665-4fdd-ab89-14d4c47212c8" width="80" />
+<img src="https://github.com/user-attachments/assets/beee2f69-e70b-4785-a883-5ea12b00d722" width="80" />
+<img src="https://github.com/user-attachments/assets/328e20d7-4631-4ed2-a841-d3d70b4e68f9" width="80" />
+
+**Seamless Striped Flower Transition**
+- `transition_type`: Clock
+- `invert`: true
+- `grid_size`: (5.0, 5.0)
+- `flip_frequency`: (2, 2)
+- `sectors`: 16
+
+<img src="https://github.com/user-attachments/assets/723764e1-f130-4a73-aafb-21f94b1d67fc" width="100" />
 
 ## Parameters Reference
 
@@ -366,9 +461,7 @@ This allows for creating "wave-like" or "staggered" animation effects where grid
 
 ## Contributing
 
-For any bugs or improvement ideas, feel free to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#about-forks) this repository and suggest a change. 
-
-Since the shader is quite simple, exploring and contributing to it can be a valuable learning experience for beginners.
+If you find any bugs, improvement ideas, interesting recipes, feel free to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#about-forks) this repository and suggest a change. Since the shader is quite simple, exploring and contributing to it can be a valuable learning experience for beginners.
 
 If you'd like to see an improvement, but don't know how to contribute, you can [create an Issue](https://github.com/cashew-olddew/Universal-Transition-Shader/issues/new).
 
