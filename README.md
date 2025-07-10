@@ -9,6 +9,8 @@ Most common transitions inside one Godot shader. 🎬
 
 ## Introduction
 
+_Hint:_ You can watch a brief guide video of the shader on my [youtube channel](https://www.youtube.com/watch?v=PtBZs7OvR2Y).
+
 This shader provides a flexible and highly customizable system for creating animated transitions between visual elements in a Godot project. It supports a wide variety of transition styles, such as:
 
 - **Directional Wipes**: (left, right, top, bottom, diagonal)
