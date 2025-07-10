@@ -9,7 +9,7 @@ Most common transitions inside one Godot shader. 🎬
 
 ## Introduction
 
-_Hint:_ You can watch a brief guide video of the shader on my [youtube channel](https://www.youtube.com/watch?v=PtBZs7OvR2Y).
+_Hint:_ You can watch a brief guide video of the shader on my [youtube channel](https://www.youtube.com/watch?v=PtBZs7OvR2Y), or see it on [Godot Shaders](https://godotshaders.com/shader/universal-transition-shader/?post_id=11966)
 
 This shader provides a flexible and highly customizable system for creating animated transitions between visual elements in a Godot project. It supports a wide variety of transition styles, such as:
 
