@@ -160,7 +160,7 @@ void fragment() {
 	vec4 transition_color = texture(transition_texture, UV);
 
 	if (use_transition_texture) {
-		vec4 chosen_color = mix(COLOR, transition_color, alpha);
+		vec4 chosen_color = mix(transition_color, COLOR, alpha);
 		COLOR = chosen_color;
 	} else {
 		COLOR.a = alpha;
