@@ -266,7 +266,7 @@ _Hint: If `transition_texture` is not set, the shader blends between `COLOR` and
 
 `transition_texture` (`sampler2D`)
 
-The texture that will be transitioned to/from when `use_transition_texture` is set to `true`.
+The texture that will be transitioned to when `use_transition_texture` is set to `true`.
 
 _Hint: Has no effect if `use_transition_texture` is `false`._
 
