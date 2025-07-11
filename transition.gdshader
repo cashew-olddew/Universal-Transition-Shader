@@ -36,6 +36,8 @@ group_uniforms animation;
 uniform float progress = 0.0;
 uniform vec2 progress_bias = vec2(0.0);
 
+varying vec4 modulate;
+
 vec2 use_actual_texture_size(vec2 uv, vec2 texture_size) {
 
 	uv -= 0.5;
@@ -96,6 +98,9 @@ float get_local_progress(vec2 grid) {
     float offset = dot(cell, pretty_bias);
     return progress - offset;
 }
+void vertex() {
+	modulate = COLOR;
+}
 
 void fragment() {
 	vec2 grid = UV * grid_size;
@@ -107,7 +112,7 @@ void fragment() {
 
 	float local_progress = get_local_progress(grid);
 
-	COLOR = texture(TEXTURE, UV);
+	COLOR = texture(TEXTURE, UV) * modulate;
 	float alpha = COLOR.a;
 	float transition_progress = 0.0;
 
