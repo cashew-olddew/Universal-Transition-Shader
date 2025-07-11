@@ -98,6 +98,7 @@ float get_local_progress(vec2 grid) {
     float offset = dot(cell, pretty_bias);
     return progress - offset;
 }
+
 void vertex() {
 	modulate = COLOR;
 }
@@ -152,6 +153,7 @@ void fragment() {
 		float separation_y = smoothstep(smooth_edges.x, smooth_edges.y, abs(uv.y));
 		transition_progress = max(separation_x, separation_y);
 	}
+	
 	alpha = invert ? 1.0 - transition_progress : transition_progress;
 	alpha = use_sprite_alpha ? min(COLOR.a, alpha) : alpha;
 
