@@ -6,8 +6,8 @@ uniform sampler2D transition_texture;
 uniform int transition_type: hint_enum("Basic", "Mask", "Shape", "Clock") = 0;
 
 group_uniforms positioning;
+uniform vec2 position = vec2(0,0);
 uniform bool invert = false;
-uniform bool from_center = false;
 uniform vec2 grid_size = vec2(1.0, 1.0);
 uniform float rotation_angle = 0.0;
 
@@ -108,7 +108,7 @@ void fragment() {
 	vec2 offset_uv = grid + get_stagger_offset(grid);
 	vec2 grid_flipped_uv = get_grid_flip(offset_uv);
 	vec2 tiled_uv = fract(grid_flipped_uv);
-	vec2 uv = from_center ? 2.0 * tiled_uv - 1.0 : tiled_uv;
+	vec2 uv = (tiled_uv - position) * 2.0;
 	uv = rotate(uv, radians(rotation_angle));
 
 	float local_progress = get_local_progress(grid);
@@ -153,7 +153,7 @@ void fragment() {
 		float separation_y = smoothstep(smooth_edges.x, smooth_edges.y, abs(uv.y));
 		transition_progress = max(separation_x, separation_y);
 	}
-	
+
 	alpha = invert ? 1.0 - transition_progress : transition_progress;
 	alpha = use_sprite_alpha ? min(COLOR.a, alpha) : alpha;
 

@@ -77,7 +77,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Center Wipe**
 - `transition_type`: Basic
-- `from_center`: true
+- `position`: (0.5, 0.5)
 
 <img src="https://github.com/user-attachments/assets/79827e31-7be0-454d-bcf3-cfb5a43a3626" width="100" />
 
@@ -92,14 +92,14 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Grid Reveal**
 - `transition_type`: Basic
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (10.0, 10.0) - or any abs(x) > 0.0; abs(y) > 0.0;
 
 <img src="https://github.com/user-attachments/assets/a4b460e9-c43d-4d57-b656-631e5ea0f4e6" width="100" />
 
 **Staggered Grid Reveal**
 - `transition_type`: Basic
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (10.0, 10.0) - or any abs(x) > 0.0; abs(y) > 0.0;
 - `stagger`: (1.0, 0.0) or (0.0, 1.0)
 
@@ -108,7 +108,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Mixed Stagger Reveal**
 - `transition_type`: Basic
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (5.0, 5.0)
 - `stagger`: (1.0, 1.0)
 
@@ -116,14 +116,14 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Cross-shaped Transition (All corners wipe)**
 - `transition_type`: Basic
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `stagger`: (1.0, 1.0)
 
 <img src="https://github.com/user-attachments/assets/24819aeb-16a8-40f2-bfd3-e3434fd9d7a7" width="100" />
 
 **Diagonal Popping Squares**
 - `transition_type`: Basic
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (5.0, 5.0)
 - `progress_bias`: (10.0, 10.0)
 
@@ -131,7 +131,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Step Wipe**
 - `transition_type`: Basic
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (5.0, 0.0) or (0.0, 5.0)
 - `progress_bias`: (5.0, 0.0) or (0.0, 5.0)
 
@@ -140,14 +140,14 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Mask Reveal**
 - `transition_type`: Mask
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `mask_texture`: Any black & white texture
 
 <img src="https://github.com/user-attachments/assets/645de630-ee98-428e-8b0d-221f6e57446e" width="100" />
 
 **Alternating Mask Grid**
 - `transition_type`: Mask
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (5.0, 5.0)
 - `mask_texture`: Any black & white texture
 - `flip_frequency`: (1.0, 2.0)
@@ -156,7 +156,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Iris Transition**
 - `transition_type`: Shape
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `edges`: 64
 - `shape_feather`: 0.1
 
@@ -164,7 +164,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Spike Transition**
 - `transition_type`: Shape
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `edges`: 3
 - `grid_size` & `rotation_angle`: `(0.5, y) & 0.0` or `(x, -0.5) & 90.0`
 
@@ -173,7 +173,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Scratch Lines Reveal**
 - `transition_type`: Shape
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (50.0, 5.0)
 - `edges`: 3
 - `flip_frequency`: (2.0, 1.0)
@@ -182,7 +182,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 **Overlapping Diamonds**
 - `transition_type`: Shape
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (0.5, 50.0) or (50.0, 0.5)
 - `edges`: 3
 - `shape_feather`: 0.0
@@ -202,7 +202,7 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 **Center-Clock Transition**
 - `transition_type`: Clock
 - `invert`: true
-- `from_center`: true
+- `position`: (0.5, 0.5)
 - `grid_size`: (1.0, 1.0) or (-1.0, -1.0) or (-1.0, 1.0) or (1.0, -1.0)
 
 <img src="https://github.com/user-attachments/assets/bdc012f3-7519-4f3c-bb38-098058a9b737" width="80" />
@@ -297,11 +297,14 @@ Reverses the logical direction of the transition's progression. For example, a t
 
 ---
 
-`from_center` (`bool`, default: `false`)
+`position` (`vec2`, default: `(0.0, 0,0)`)
 
-When `false`, the origin is typically one of the edges or corners, depending on `grid_size`, `stagger` and `rotation_angle`.
-
-When `true`, the transition's origin point is considered the center of the `CanvasItem`'s local coordinate system. 
+Specifies the position in each grid cell (see `grid_size` parameter) from where the transition starts.
+- `(0.0, 0.0)` - top left corner
+- `(1.0, 0.0)` - top right corner
+- `(0,0, 1.0)` - bottom left corner
+- `(1.0, 1.0)` - bottom right corner
+- `(0.5, 0.5)` - center
 
 ---
 
