@@ -6,8 +6,8 @@ uniform sampler2D transition_texture;
 uniform int transition_type: hint_enum("Basic", "Mask", "Shape", "Clock") = 0;
 
 group_uniforms positioning;
+uniform vec2 position = vec2(0,0);
 uniform bool invert = false;
-uniform bool from_center = false;
 uniform vec2 grid_size = vec2(1.0, 1.0);
 uniform float rotation_angle = 0.0;
 
@@ -35,6 +35,8 @@ uniform float clock_feather : hint_range(0.0, 16.0) = 0.0;
 group_uniforms animation;
 uniform float progress = 0.0;
 uniform vec2 progress_bias = vec2(0.0);
+
+varying vec4 modulate;
 
 vec2 use_actual_texture_size(vec2 uv, vec2 texture_size) {
 
@@ -97,17 +99,21 @@ float get_local_progress(vec2 grid) {
     return progress - offset;
 }
 
+void vertex() {
+	modulate = COLOR;
+}
+
 void fragment() {
 	vec2 grid = UV * grid_size;
 	vec2 offset_uv = grid + get_stagger_offset(grid);
 	vec2 grid_flipped_uv = get_grid_flip(offset_uv);
 	vec2 tiled_uv = fract(grid_flipped_uv);
-	vec2 uv = from_center ? 2.0 * tiled_uv - 1.0 : tiled_uv;
+	vec2 uv = (tiled_uv - position) * 2.0;
 	uv = rotate(uv, radians(rotation_angle));
 
 	float local_progress = get_local_progress(grid);
 
-	COLOR = texture(TEXTURE, UV);
+	COLOR = texture(TEXTURE, UV) * modulate;
 	float alpha = COLOR.a;
 	float transition_progress = 0.0;
 
@@ -138,7 +144,7 @@ void fragment() {
 
 		float progress_angle = local_progress * 2.0 * PI / float(sectors);
 		float smooth_angle = smoothstep(0.0, clock_feather, progress_angle - angle);
-		transition_progress = invert ? 1.0 - smooth_angle : smooth_angle;
+		transition_progress = smooth_angle;
 
 	} else {
 		vec2 smooth_edges = get_edges(local_progress, basic_feather);
@@ -147,13 +153,14 @@ void fragment() {
 		float separation_y = smoothstep(smooth_edges.x, smooth_edges.y, abs(uv.y));
 		transition_progress = max(separation_x, separation_y);
 	}
+
 	alpha = invert ? 1.0 - transition_progress : transition_progress;
 	alpha = use_sprite_alpha ? min(COLOR.a, alpha) : alpha;
 
 	vec4 transition_color = texture(transition_texture, UV);
 
 	if (use_transition_texture) {
-		vec4 chosen_color = mix(COLOR, transition_color, alpha);
+		vec4 chosen_color = mix(transition_color, COLOR, alpha);
 		COLOR = chosen_color;
 	} else {
 		COLOR.a = alpha;
