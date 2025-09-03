@@ -342,6 +342,18 @@ _Hint 2: Due to each element having limited space in its cell, applying a stagge
 
 ---
 
+`cumulative_stagger_flip` (`bool`, default `false`)
+
+Enabling this allows the `cumulative_stagger` to start from the last row or column.
+
+---
+
+`cumulative_stagger` (`vec2`, default `(0.0, 0.0)`)
+
+Adds an offset between staggered rows or columns. The stagger amount of each row/column will be calculated based on its index.
+
+---
+
 `stagger_frequency` (`ivec2`, default: `(2, 2)`)
 
 Determines how often the stagger offset is applied to grid cells.
