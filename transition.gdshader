@@ -13,6 +13,7 @@ uniform float rotation_angle = 0.0;
 
 group_uniforms positioning.stagger;
 uniform vec2 stagger = vec2(0.0, 0.0);
+uniform bool cumulative_flip = false;
 uniform vec2 cumulative_stagger = vec2(0, 0);
 uniform ivec2 stagger_frequency = ivec2(2, 2);
 uniform ivec2 flip_frequency = ivec2(1, 1);
@@ -61,9 +62,12 @@ vec2 get_stagger_offset(vec2 grid) {
 	float offset_row = mod(cells.y, float(stagger_frequency.x)) == 0.0 ? 0.5 : 0.0;
 	float offset_col = mod(cells.x, float(stagger_frequency.y)) == 0.0 ? 0.5 : 0.0;
 
+	float row_index = cumulative_flip ? (grid_size.y - 1.0 - cells.y) : cells.y;
+	float col_index = cumulative_flip ? (grid_size.x - 1.0 - cells.x) : cells.x;
+
 	return vec2(
-		offset_row * (stagger.x + cells.y * cumulative_stagger.x),
-		offset_col * (stagger.y + cells.x * cumulative_stagger.y)
+		offset_row * (stagger.x + row_index * cumulative_stagger.x),
+		offset_col * (stagger.y + col_index * cumulative_stagger.y)
 	);
 }
 
