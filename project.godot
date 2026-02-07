@@ -8,8 +8,22 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Universal Transition Shader"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="uid://bkij6lxw3m3qx"
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://assets/icon.svg"
+
+[display]
+
+window/size/viewport_width=160
+window/size/viewport_height=160
+
+[editor]
+
+movie_writer/movie_file="E:/Projects/Games/Universal-Transition-Shader/assets/recipes/recipe.avi"

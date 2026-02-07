@@ -470,6 +470,24 @@ If you find any bugs, improvement ideas, interesting recipes, feel free to [fork
 
 If you'd like to see an improvement, but don't know how to contribute, you can [create an Issue](https://github.com/cashew-olddew/Universal-Transition-Shader/issues/new).
 
+### Recipe Contributions
+
+To add a new recipe to the [Common Transition Recipes](#common-transition-recipes) section, write down the recipe in the README.md file and add under it one ore more gifs showcasing variations of the transitions.
+
+To generate a gif:
+1. Configure the AnimationPlayer in the main scene so that at time 1.0 & 1.5 the progress value reaches the value at which the transition completes.
+2. [Enable Movie Maker mode](https://docs.godotengine.org/en/stable/tutorials/animation/creating_movies.html#enabling-movie-maker-mode).
+3. Run the scene. This will generate a "recipe.avi" file under the [assets/recipes](assets/recipes) folder.
+4. Convert the generated .avi file to a .gif.
+	- This is how I generated the other gifs. Feel free to generate them in any way.
+	```bash
+	ffmpeg -i recipe.avi -vf "fps=24,scale=160:160:flags=lanczos,palettegen" -y palette.png
+
+	ffmpeg -i recipe.avi -i palette.png -filter_complex "fps=24,scale=160:160:flags=lanczos[x];[x][1:v]paletteuse=dither=none" -y recipe.gif
+	```
+	- Recipes with a single gif should have a width of 100px, while recipes with multiple variations should have a width of 80px. 
+5. Add the generated .gif to the [assets/recipes](assets/recipes) folder and link it to the README.md file similarly to how the others are linked.
+
 ## License
 
 This project and shader falls under the [CC0](LICENSE) license, meaning that you can do anything you want with the code here, even use it commercially. You do not have any obligation to credit me, but doing so would be highly appreciated.
