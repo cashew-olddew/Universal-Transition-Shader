@@ -11,6 +11,12 @@ uniform bool invert = false;
 uniform vec2 grid_size = vec2(1.0, 1.0);
 uniform float rotation_angle = 0.0;
 
+group_uniforms positioning.mirror;
+uniform bool global_x_mirror = false;
+uniform bool global_y_mirror = false;
+uniform bool local_x_mirror = false;
+uniform bool local_y_mirror = false;
+
 group_uniforms positioning.stagger;
 uniform vec2 stagger = vec2(0.0, 0.0);
 uniform bool cumulative_stagger_flip = false;
@@ -104,15 +110,26 @@ float get_local_progress(vec2 grid) {
     return progress - offset;
 }
 
+vec2 apply_mirror(vec2 uv, bool mirror_x, bool mirror_y) {
+    vec2 mirrored = 0.5 - abs(uv - 0.5);
+    vec2 toggle = vec2(float(mirror_x), float(mirror_y));
+    return mix(uv, mirrored, toggle);
+}
+
 void vertex() {
 	modulate = COLOR;
 }
 
 void fragment() {
-	vec2 grid = UV * grid_size;
+	vec2 mirrored_uv = apply_mirror(UV, global_x_mirror, global_y_mirror);
+	
+	vec2 grid = mirrored_uv * grid_size;
 	vec2 offset_uv = grid + get_stagger_offset(grid);
 	vec2 grid_flipped_uv = get_grid_flip(offset_uv);
 	vec2 tiled_uv = fract(grid_flipped_uv);
+
+	tiled_uv = apply_mirror(tiled_uv, local_x_mirror, local_y_mirror);
+	
 	vec2 uv = (tiled_uv - position) * 2.0;
 	uv = rotate(uv, radians(rotation_angle));
 
