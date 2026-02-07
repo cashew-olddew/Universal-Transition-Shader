@@ -248,6 +248,27 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 <img src="assets/recipes/cumulative_stagger.gif" width="100" />
 
+**Double Diamond Transition**
+- `transition_type`: Clock
+- `position`: (0.5, 0.5)
+- `grid_size`: (2.0, 2.0)
+- `local_x_mirror`: true
+- `local_y_mirror`: true
+- `sectors`: 4
+
+<img src="assets/recipes/double_diamond.gif" width="100" />
+
+**Spike Trap Transition**
+- `transition_type`: Shape
+- `position`: (0.0, 1.0)
+- `grid_size`: (1.0, 3.0)
+- `rotation_angle`: 30.0
+- `global_x_mirror`: true
+- `local_y_mirror`: true
+- `edges`: 3
+
+<img src="assets/recipes/spike_trap.gif" width="100" />
+
 ## Parameters Reference
 
 The shader parameters are organized into the following categories:
@@ -343,7 +364,6 @@ Experiment to find more special `grid_size` values or check out the [common tran
 
 Rotates the local coordinate system within each grid cell (or the entire `CanvasItem` if `grid_size` is `(1.0, 1.0)`). The angle is specified in degrees.
 
----
 
 #### Mirror
 
