@@ -230,6 +230,24 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 <img src="https://github.com/user-attachments/assets/723764e1-f130-4a73-aafb-21f94b1d67fc" width="100" />
 
+**Hourglass Wipe Transition - by tomsterBG**
+- `transition_type`: Clock
+- `position`: (0.5, 0.5)
+- `stagger`: (1.0, 1.0)
+- `flip_frequency`: (2.0, 2.0)
+- `sectors`: 2
+
+<img src="assets/recipes/hourglass.gif" width="100" />
+
+**Cumulative Stagger Transition - by tomsterBG**
+- `transition_type`: Basic
+- `position`: (0.5, 0.5)
+- `grid_size`: (4.0, 6.0)
+- `stagger_frequency`: (1.0, 1.0)
+- `cumulative_stagger`: _Animated_ alongside progress from (1.0, 0.0) to (3.0, 0.0)
+
+<img src="assets/recipes/cumulative_stagger.gif" width="100" />
+
 ## Parameters Reference
 
 The shader parameters are organized into the following categories:
@@ -339,6 +357,18 @@ Applies a fractional offset to the UV coordinates of alternating grid rows and c
 _Hint 1: When `grid_size` is `(1.0, 1.0)` or smaller, this just offsets the transition location._
 
 _Hint 2: Due to each element having limited space in its cell, applying a stagger on both axis can lead to interesting patterns._
+
+---
+
+`cumulative_stagger_flip` (`bool`, default `false`)
+
+Enabling this allows the `cumulative_stagger` to start from the last row or column.
+
+---
+
+`cumulative_stagger` (`vec2`, default `(0.0, 0.0)`)
+
+Adds an offset between staggered rows or columns. The stagger amount of each row/column will be calculated based on its index.
 
 ---
 
