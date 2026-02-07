@@ -248,11 +248,33 @@ _Hint: Each recipe contains only the most basic 'ingredients', without which the
 
 <img src="assets/recipes/cumulative_stagger.gif" width="100" />
 
+**Double Diamond Transition**
+- `transition_type`: Clock
+- `position`: (0.5, 0.5)
+- `grid_size`: (2.0, 2.0)
+- `local_x_mirror`: true
+- `local_y_mirror`: true
+- `sectors`: 4
+
+<img src="assets/recipes/double_diamond.gif" width="100" />
+
+**Spike Trap Transition**
+- `transition_type`: Shape
+- `position`: (0.0, 1.0)
+- `grid_size`: (1.0, 3.0)
+- `rotation_angle`: 30.0
+- `global_x_mirror`: true
+- `local_y_mirror`: true
+- `edges`: 3
+
+<img src="assets/recipes/spike_trap.gif" width="100" />
+
 ## Parameters Reference
 
 The shader parameters are organized into the following categories:
 - **[Shader Parameters](#shader-parameters)**: Generic shader settings that apply to the overall behavior of the transition, such as the `Transition Type`
 - **[Positioning](#positioning)**: Used for positioning and orientation of the transition, applying to all transition types
+	- **[Mirror](#mirror)**: Control the local and global mirroring around the center.
 	- **[Stagger](#stagger)**: Handle offset of grid rows and columns, allowing for more varied grid patterns.
 - **[Basic Transition Controls](#basic-transition-controls)**: Parameters specific to the "Basic" transition type.
 - **[Mask Transition Controls](#mask-transition-controls)**: Parameters specific to the "Mask" transition type.
@@ -342,7 +364,30 @@ Experiment to find more special `grid_size` values or check out the [common tran
 
 Rotates the local coordinate system within each grid cell (or the entire `CanvasItem` if `grid_size` is `(1.0, 1.0)`). The angle is specified in degrees.
 
+
+#### Mirror
+
+These parameters introduce mirroring of the transition effect around the center.
+
 ---
+
+`global_x_mirror` (`bool`, default: `false`)
+
+Applies horizontal mirroring effect to the _entire transition_.
+
+`global_y_mirror` (`bool`, default: `false`)
+
+Applies vertical mirroring effect to the _entire transition_.
+
+---
+
+`local_x_mirror` (`bool`, default: `false`)
+
+Applies horizontal mirroring effect to the transition _within each grid cell_.
+
+`local_y_mirror` (`bool`, default: `false`)
+
+Applies vertical mirroring effect to the transition _within each grid cell_.
 
 #### Stagger
 
