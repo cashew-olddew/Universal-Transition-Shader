@@ -24,6 +24,10 @@ config/icon="res://assets/icon.svg"
 window/size/viewport_width=160
 window/size/viewport_height=160
 
+[dotnet]
+
+project/assembly_name="Universal Transition Shader"
+
 [editor]
 
 movie_writer/movie_file="E:/Projects/Games/Universal-Transition-Shader/assets/recipes/recipe.avi"

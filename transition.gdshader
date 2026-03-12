@@ -3,7 +3,7 @@ shader_type canvas_item;
 uniform bool use_sprite_alpha = true;
 uniform bool use_transition_texture = false;
 uniform sampler2D transition_texture;
-uniform int transition_type: hint_enum("Basic", "Mask", "Shape", "Clock") = 0;
+uniform int transition_type: hint_enum("Basic", "Mask", "Shape", "Clock", "Noise", "Burn") = 0;
 
 group_uniforms positioning;
 uniform vec2 position = vec2(0,0);
@@ -40,6 +40,31 @@ group_uniforms clock_transition_controls;
 uniform int sectors : hint_range(1, 128) = 1;
 uniform float clock_feather : hint_range(0.0, 16.0) = 0.0;
 
+group_uniforms noise_transition_controls;
+uniform sampler2D noise_tex_normal;
+uniform sampler2D noise_tex;
+uniform float strength = 1.0;
+uniform float pixel_count : hint_range(1.0, 512.0) = 64.0;
+uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.1;
+
+group_uniforms burn_transition_controls;
+//the width of the burn area, higher values makes the burn wider, 1 makes the burn cover the whole sprite
+uniform float burn_width : hint_range(0.0,2.0) = .2;
+
+//Noise to sample from for the burning
+uniform sampler2D noise;
+//colors to use for the burn color, the progress of the burn goes left to right
+uniform sampler2D colorCurve;
+// uniform float speed : hint_range(0.0,1.0) = 1.0;
+//hacky way to make this angled, far from perfect. 1.0 is right to left. 0 is bottom to top. outside
+//that range is wierd.
+uniform float burn_angle = 1.0;
+
+float inverse_lerp(float a, float b, float v){
+	return (v-a)/(b-a);
+}
+
+
 group_uniforms animation;
 uniform float progress = 0.0;
 uniform vec2 progress_bias = vec2(0.0);
@@ -65,8 +90,8 @@ vec2 use_actual_texture_size(vec2 uv, vec2 texture_size) {
 
 vec2 get_stagger_offset(vec2 grid) {
 	vec2 cells = floor(grid);
-	float offset_row = mod(cells.y, float(stagger_frequency.x)) == 0.0 ? 0.5 : 0.0;
-	float offset_col = mod(cells.x, float(stagger_frequency.y)) == 0.0 ? 0.5 : 0.0;
+	float offset_row = abs(mod(cells.y, float(stagger_frequency.x))) < 0.0001 ? 0.5 : 0.0;
+	float offset_col = abs(mod(cells.x, float(stagger_frequency.y))) < 0.0001 ? 0.5 : 0.0;
 
 	float row_index = cumulative_stagger_flip ? (grid_size.y - 1.0 - cells.y) : cells.y;
 	float col_index = cumulative_stagger_flip ? (grid_size.x - 1.0 - cells.x) : cells.x;
@@ -79,8 +104,8 @@ vec2 get_stagger_offset(vec2 grid) {
 
 vec2 get_grid_flip(vec2 grid) {
 	vec2 cells = floor(grid);
-	float flip_row = mod(cells.y, float(flip_frequency.x)) == 0.0 ? 1.0 : -1.0;
-	float flip_col = mod(cells.x, float(flip_frequency.y)) == 0.0 ? 1.0 : -1.0;
+	float flip_row = abs(mod(cells.y, float(flip_frequency.x))) < 0.0001 ? 1.0 : -1.0;
+	float flip_col = abs(mod(cells.x, float(flip_frequency.y))) < 0.0001 ? 1.0 : -1.0;
 
 	return vec2(
 		flip_row * grid.x,
@@ -158,7 +183,6 @@ void fragment() {
 		transition_progress = smoothstep(smooth_edges.x, smooth_edges.y, radius / d);
 
 	} else if (transition_type == 3) {
-		float radius = length(uv);
 		float angle = atan(uv.y, uv.x);
 		float sector_angle = 2.0 * PI / float(sectors);
 		float half_sector = sector_angle / 2.0;
@@ -168,7 +192,45 @@ void fragment() {
 		float smooth_angle = smoothstep(0.0, clock_feather, progress_angle - angle);
 		transition_progress = smooth_angle;
 
-	} else {
+	} 
+	else if (transition_type == 4) {
+    float pixel_size = 1.0 / pixel_count;
+    vec2 pixel_uv = floor(UV / pixel_size) * pixel_size;
+
+    // Distortion
+    vec2 direction = texture(noise_tex_normal, pixel_uv).xy;
+    direction = (direction - 0.5) * 2.0;
+    direction *= strength * progress;
+    vec2 distorted_uv = pixel_uv - direction;
+
+    // Base texture
+    vec4 tex = texture(TEXTURE, distorted_uv);
+
+    // Discard almost transparent pixels to avoid mess
+    if (tex.a < alpha_threshold) {
+        discard;
+    }
+
+    float dissolve = texture(noise_tex, pixel_uv).x;
+    dissolve = step(progress, dissolve);
+    tex.a *= dissolve;
+
+    // Apply light/modulation
+    COLOR = tex * COLOR;
+
+	}
+	else if (transition_type == 5)
+	{
+			  float burn_progress;
+                burn_progress = progress;
+        float noise_value = texture(noise,UV).x;
+        float mask = inverse_lerp(1.0 - burn_progress,(1.0 + burn_width) - burn_progress, (UV.x * burn_angle + UV.y * (1.0-burn_angle)));
+        float value = clamp(mask + noise_value,0.0,1.0);
+        vec4 curve_value = texture(colorCurve,vec2(value));
+        COLOR = mix(COLOR, curve_value, value);
+        COLOR.a = min(texture(TEXTURE,UV).a,COLOR.a);
+	}
+	else {
 		vec2 smooth_edges = get_edges(local_progress, basic_feather);
 
 		float separation_x = smoothstep(smooth_edges.x, smooth_edges.y, abs(uv.x));
@@ -176,15 +238,17 @@ void fragment() {
 		transition_progress = max(separation_x, separation_y);
 	}
 
-	alpha = invert ? 1.0 - transition_progress : transition_progress;
-	alpha = use_sprite_alpha ? min(COLOR.a, alpha) : alpha;
+	if (transition_type != 4 && transition_type != 5) {
+		alpha = invert ? 1.0 - transition_progress : transition_progress;
+		alpha = use_sprite_alpha ? min(COLOR.a, alpha) : alpha;
 
-	vec4 transition_color = texture(transition_texture, UV);
+		vec4 transition_color = texture(transition_texture, UV);
 
-	if (use_transition_texture) {
-		vec4 chosen_color = mix(transition_color, COLOR, alpha);
-		COLOR = chosen_color;
-	} else {
-		COLOR.a = alpha;
+		if (use_transition_texture) {
+			vec4 chosen_color = mix(transition_color, COLOR, alpha);
+			COLOR = chosen_color;
+		} else {
+			COLOR.a = alpha;
+		}
 	}
 }
