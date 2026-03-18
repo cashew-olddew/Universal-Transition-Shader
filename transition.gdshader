@@ -46,11 +46,9 @@ uniform vec2 progress_bias = vec2(0.0);
 
 varying vec4 modulate;
 
-vec2 use_actual_texture_size(vec2 uv, vec2 texture_size) {
-
+vec2 use_actual_texture_size(vec2 uv, vec2 texture_size, vec2 raw_uv_deriv) {
 	uv -= 0.5;
-	vec2 uv_deriv = fwidth(uv);
-	float screen_ratio = uv_deriv.x / uv_deriv.y;
+	float screen_ratio = raw_uv_deriv.x / raw_uv_deriv.y;
 	float texture_ratio = texture_size.x / texture_size.y;
 	float mixed_ratio = texture_ratio * screen_ratio;
 
@@ -121,15 +119,17 @@ void vertex() {
 }
 
 void fragment() {
+	vec2 uv_deriv = fwidth(UV); // derivate used for keeping mask texture size regardless of sprite ratio
+
 	vec2 mirrored_uv = apply_mirror(UV, global_x_mirror, global_y_mirror);
-	
+
 	vec2 grid = mirrored_uv * grid_size;
 	vec2 offset_uv = grid + get_stagger_offset(grid);
 	vec2 grid_flipped_uv = get_grid_flip(offset_uv);
 	vec2 tiled_uv = fract(grid_flipped_uv);
 
 	tiled_uv = apply_mirror(tiled_uv, local_x_mirror, local_y_mirror);
-	
+
 	vec2 uv = (tiled_uv - position) * 2.0;
 	uv = rotate(uv, radians(rotation_angle));
 
@@ -142,7 +142,7 @@ void fragment() {
 	if (transition_type == 1) {
 		vec2 mask_zoom_uv = uv / local_progress;
 		vec2 mask_zoom_uv_01 = mask_zoom_uv * 0.5 + 0.5;
-		mask_zoom_uv_01 = use_mask_size ? use_actual_texture_size(mask_zoom_uv_01, mask_size) : mask_zoom_uv_01;
+		mask_zoom_uv_01 = use_mask_size ? use_actual_texture_size(mask_zoom_uv_01, mask_size, uv_deriv) : mask_zoom_uv_01;
 
 		transition_progress = texture(mask_texture, mask_zoom_uv_01).r;
 
