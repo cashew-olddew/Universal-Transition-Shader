@@ -3,11 +3,39 @@
 [ext_resource type="Shader" uid="uid://ddxgjcn15adry" path="res://transition.gdshader" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://bg4r54wgjqnhg" path="res://assets/icon.svg" id="1_ig7tw"]
 
+[sub_resource type="Gradient" id="Gradient_1bvp3"]
+colors = PackedColorArray(0.97496897, 0.5766774, 0, 1, 1, 0.28918967, 0.28918967, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lquwl"]
+gradient = SubResource("Gradient_1bvp3")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h2yge"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0xm2m"]
+noise = SubResource("FastNoiseLite_h2yge")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0xm2m"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_h2yge"]
+noise = SubResource("FastNoiseLite_0xm2m")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1bvp3"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lquwl"]
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_1bvp3")
+seamless = true
+invert = true
+as_normal_map = true
+seamless_blend_skirt = 0.353
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
 shader = ExtResource("1_0xm2m")
-shader_parameter/use_sprite_alpha = true
+shader_parameter/use_sprite_alpha = false
 shader_parameter/use_transition_texture = false
-shader_parameter/transition_type = 0
+shader_parameter/transition_type = 5
 shader_parameter/position = Vector2(0, 0)
 shader_parameter/invert = false
 shader_parameter/grid_size = Vector2(1, 1)
@@ -28,6 +56,15 @@ shader_parameter/edges = 6
 shader_parameter/shape_feather = 0.1
 shader_parameter/sectors = 1
 shader_parameter/clock_feather = 0.0
+shader_parameter/noise_tex_normal = SubResource("NoiseTexture2D_lquwl")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_h2yge")
+shader_parameter/strength = 10.0
+shader_parameter/pixel_count = 64.0000029925
+shader_parameter/alpha_threshold = 0.1
+shader_parameter/burn_width = 0.2
+shader_parameter/noise = SubResource("NoiseTexture2D_0xm2m")
+shader_parameter/colorCurve = SubResource("GradientTexture2D_lquwl")
+shader_parameter/burn_angle = 0.0
 shader_parameter/progress = 2.0
 shader_parameter/progress_bias = Vector2(0, 0)
 
@@ -101,6 +138,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Background" type="ColorRect" parent="." unique_id=874746378]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -128,3 +166,4 @@ texture = ExtResource("1_ig7tw")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=39034180]
 libraries/ = SubResource("AnimationLibrary_1bvp3")
 autoplay = &"transition"
+speed_scale = 0.12
